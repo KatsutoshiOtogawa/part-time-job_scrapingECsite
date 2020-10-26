@@ -36,11 +36,28 @@ seleniumを使ってください。
 - 商品詳細画面に「この商品を買った人が買った物、この商品を買う人のおすすめ」などが表示されているなら、その画像、絶対パス、商品名を取得すること。
 - 商品詳細画面からaffiliateの情報を抜き出すこと。
 - affliateurl,埋め込みようのタグ,affliateの画像(大,中,小),affliate用のテキストを抜き出すこと。
-- 検索窓から検索した場合に
+- 検索窓から検索した場合に商品が見つからない場合はNotFoundExceptionというエラーをthrowすること(自作エラー)
 
 #### モデル層
+ex)例の一つ。
+Collectionがこのような形になってなくても良いです。
+
+|Name                   |type|
+|-----------------------|----|
+|ShopName               |S   |
+|ShopItemID             |S   |
+|ShopItemName           |S   |
+|AffiliateUrl           |S   |
+|AffiliateBigImageUrl   |S   |
+|AffiliateMiddleImageUrl|S   |
+|AffiliateSmallImageUrl |S   |
+|PlayerEmbed            |SS  |
+|Gallery                |SS  |
+|Monopoly               |BOOL|
+|CreatedAt              |S   |
+
 - amazonDynamoDBを使うこと(DyanamoDBLocalでOK)
-- 検索結果がなかった場合やエラー時はその行はCreatedAtにプログラム起動時間(YYYY-mm-DD)という形式でデータを入れること。()
+- 検索結果がなかった場合やエラー時はその行は商品名とCreatedAtにプログラム起動時間(YYYY-mm-DD)という形式でデータを入れること。
 - 1000件検索したらプログラムを終了すること。
 
 #### コーディング規則
@@ -48,7 +65,7 @@ seleniumを使ってください。
 - C#の場合はdestructorとexception,javaはexceptionを用いてリソースが必ず開放されるようにすること。
 - pythonの場合はwith,イテレーター,内包表記などを用いて、リソースの管理を意識しない作りにすること。
 - for内で例外をcatchした場合、スレッドの割り込みエラー,IOエラーなど致命的なエラー以外はcontinue文で次のループに進むこと。
-- 致命的なエラーはすべてWarnを使うこと。
+- logをとる時、致命的なエラーはすべてErrorを使うこと。致命的でないエラーはWarnを使うこと。
 - logはgrep,sed,awkで抽出できるようにして、変数のdumpを表示すること。
 
 
